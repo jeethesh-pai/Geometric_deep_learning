@@ -18,10 +18,10 @@ def build_model(hp):
 
 
 def build_enn_model(hp):
-    model = EquiVariantModel(hp.Int("num_layers", min_value=1, max_value=10, step=1, default=1),
+    model = EquiVariantModel(hp.Int("num_layers", min_value=1, max_value=10, default=1),
                              hp.Choice("activation", ['relu', 'tanh', 'sigmoid']))
-    lr = hp.Float('lr', min_value=1e-5, max_value=1e-2, sampling='log', default=1e-3)
-    model.compile(loss='mse', optimizer=keras.optimizers.Adam(learning_rate=lr))
+    # lr = hp.Float('lr', min_value=1e-5, max_value=1e-3, sampling='log', default=1e-4)
+    model.compile(loss='mse', optimizer=keras.optimizers.Adam(learning_rate=1e-3))
     return model
 
 

@@ -60,6 +60,20 @@ class Augmentation:
         return rot_x, rot_y
 
 
+class TestData:
+    def __init__(self):
+        pass
+
+    def __call__(self):
+        x1 = np.linspace(0, 0.5, 20)[:, np.newaxis]
+        x3 = 0.5 - x1
+        x2 = np.ones_like(x1) * 0.25
+        x4 = np.copy(x2)
+        test_1 = np.concatenate([x1, x2, x3, x4], axis=1)
+        test_2 = np.concatenate([x2, x1, x4, x3], axis=1)
+        return {'set1': test_1, "set2": test_2}
+
+
 # data_directory = "dlr_project_data/"
 # # df = pd.read_csv(data_directory + 'leakage_synth_dataset_train_100.csv')
 # # df_validation = pd.read_csv(data_directory + 'leakage_synth_dataset_validation_1000.csv')
@@ -72,8 +86,3 @@ class Augmentation:
 # # print(x_flip)
 # get_data_dict = get_data(data_directory + 'leakage_synth_dataset_train_100.csv', augment=True)
 # print(get_data_dict)
-
-
-
-
-
