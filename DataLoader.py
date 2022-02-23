@@ -61,11 +61,12 @@ class Augmentation:
 
 
 class TestData:
-    def __init__(self):
-        pass
+    def __init__(self, spacing=20):
+        assert spacing > 1, print("Interval spacing not possible")
+        self.spacing = spacing
 
     def __call__(self):
-        x1 = np.linspace(0, 0.5, 20)[:, np.newaxis]
+        x1 = np.linspace(0, 0.5, self.spacing)[:, np.newaxis]
         x3 = 0.5 - x1
         x2 = np.ones_like(x1) * 0.25
         x4 = np.copy(x2)
@@ -86,3 +87,4 @@ class TestData:
 # # print(x_flip)
 # get_data_dict = get_data(data_directory + 'leakage_synth_dataset_train_100.csv', augment=True)
 # print(get_data_dict)
+

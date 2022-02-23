@@ -36,6 +36,7 @@ for layer in layer_variables:
                 train_dataset = tf.data.Dataset.from_tensor_slices((x_train.astype(np.float32),
                                                                     y_train.astype(np.float32)))
                 train_dataset = train_dataset.shuffle(buffer_size=1024).batch(batch_size)
+
                 val_dataset = tf.data.Dataset.from_tensor_slices((x_validation.astype(np.float32),
                                                                   y_validation.astype(np.float32)))
                 val_dataset = val_dataset.shuffle(buffer_size=1024).batch(32)
@@ -86,7 +87,7 @@ for layer in layer_variables:
                 print("\n")
                 global_val_loss[model_name] = np.mean(batch_val_loss)
 print(global_val_loss)
-with open('loss10000.csv', 'w') as csv_file:
+with open('NAS Hyperparameters/loss10000.csv', 'w') as csv_file:
     writer = csv.writer(csv_file)
     for key, value in global_val_loss.items():
         writer.writerow([key, value])
