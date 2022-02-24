@@ -1,2 +1,9 @@
 /dlr_project_data/
 /Tensorboard/
+/NAS Hyperparameters/DLR_ArchitectureSearch/
+/NAS Hyperparameters/DLR_ArchitectureSearch100ENN/
+/NAS Hyperparameters/DLR_ArchitectureSearch1000/
+/NAS Hyperparameters/DLR_ArchitectureSearch1000Aug/
+/NAS Hyperparameters/DLR_ArchitectureSearch10000/
+/NAS Hyperparameters/DLR_ArchitectureSearch10000Aug/
+/NAS Hyperparameters/DLR_ArchitectureSearchTrain100Aug/
