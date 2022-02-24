@@ -1,3 +1,8 @@
+"""
+This script saves weight after training best Equi-variant network from the Architecture search for further post
+processing
+"""
+
 from DataLoader import get_data
 import tensorflow as tf
 import numpy as np
@@ -8,7 +13,7 @@ import math
 
 #  prepare data
 data_directory = "dlr_project_data/"
-train_dict = get_data(data_directory + 'leakage_synth_dataset_train_10000.csv', augment=False)
+train_dict = get_data(data_directory + 'leakage_synth_dataset_train_10000.csv', augment=True)
 x_train, y_train = train_dict['x_data'], train_dict['y_data']
 validation_dict = get_data(data_directory + 'leakage_synth_dataset_validation_1000.csv')
 x_validation, y_validation = validation_dict['x_data'], validation_dict['y_data']
@@ -80,7 +85,7 @@ for epoch in train_bar:
         cooldown = 0
 
 # save the model weights
-model.save_weights("Models/ENNModel10000.h5")
+model.save_weights("Models/ENNModel10000Aug.h5")
 print("Training complete \n")
 
 
