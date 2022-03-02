@@ -17,6 +17,21 @@ def build_model(hp):
     return model
 
 
+def build_int_model(hp):
+    model = keras.Sequential()
+    model.add(keras.layers.Dense(hp.Int('units', max_value=10, min_value=1, step=1),
+                                 hp.Choice("activation", ['relu', 'tanh', 'sigmoid']), input_shape=[4]))
+    for i in range(hp.Int("num_layers", min_value=1, max_value=4, step=1, default=1)):
+        model.add(keras.layers.Dense(hp.Int('units', max_value=10, min_value=1, step=1),
+                                     hp.Choice("activation", ['relu', 'tanh', 'sigmoid'])))
+        if hp.Boolean("dropout"):
+            model.add(keras.layers.Dropout(rate=0.25))
+    model.add(keras.layers.Dense(2, activation=None))
+    lr = hp.Float('lr', min_value=1e-4, max_value=1e-2, sampling='log', default=1e-3)
+    model.compile(loss='mse', optimizer=keras.optimizers.Adam(learning_rate=lr))
+    return model
+
+
 def build_enn_model(hp):
     model = EquiVariantModel(hp.Int("num_layers", min_value=1, max_value=10, default=1),
                              hp.Choice("activation", ['relu', 'tanh', 'sigmoid']))

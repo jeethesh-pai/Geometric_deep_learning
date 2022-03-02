@@ -1,7 +1,7 @@
 import numpy as np
 import tensorflow as tf
 from DataLoader import get_data
-from Model import build_model, build_enn_model
+from Model import build_model, build_enn_model, build_int_model
 import keras_tuner as kt
 from tensorflow import keras
 
@@ -14,7 +14,7 @@ class MyTuner(kt.tuners.RandomSearch):
 
 
 data_directory = "dlr_project_data/"
-train_dict = get_data(data_directory + 'leakage_synth_dataset_train_10000.csv', augment=False)
+train_dict = get_data(data_directory + 'leakage_synth_dataset_train_100.csv', augment=False)
 x_train, y_train = train_dict['x_data'], train_dict['y_data']
 validation_dict = get_data(data_directory + 'leakage_synth_dataset_validation_1000.csv')
 x_validation, y_validation = validation_dict['x_data'], validation_dict['y_data']
@@ -25,8 +25,8 @@ val_dataset = tf.data.Dataset.from_tensor_slices((x_validation.astype(np.float32
 val_dataset = val_dataset.batch(batch_size)
 test_dict = get_data(data_directory + 'leakage_synth_dataset_test_1000.csv')
 x_test, y_test = test_dict['x_data'], test_dict['y_data']
-tuner = kt.RandomSearch(build_model, objective='val_loss', max_trials=100, executions_per_trial=1, directory="",
-                        project_name="DLR_ArchitectureSearch10000")
+tuner = kt.RandomSearch(build_int_model, objective='val_loss', max_trials=100, executions_per_trial=3, directory="",
+                        project_name="DLR_ArchitectureSearch100Int")
 print('searching done')
 tuner.search(train_dataset, epochs=100, validation_data=val_dataset,
              callbacks=[keras.callbacks.EarlyStopping(monitor='val_loss', mode='min', patience=5,
@@ -39,7 +39,7 @@ print(best_model.summary())
 best_hps = tuner.get_best_hyperparameters(num_trials=1)[0]
 print(best_hps)
 best_model.evaluate(x=x_test, y=y_test)
-best_model.save("BestModel_data10000.hdf5")
+best_model.save("BestModel_data100Int.hdf5")
 pred_data = x_test[2, :][np.newaxis, ...]
 y_pred = best_model.predict(pred_data)
 y_true = y_test[2, :]
